@@ -19,7 +19,7 @@ namespace Module_9
             catch (Exception ex)
             {
                 if (ex is DivideByZeroException) 
-                Console.WriteLine("Делитьц на нoль нельзя");
+                Console.WriteLine("Делить на нoль нельзя");
             }
             
 
