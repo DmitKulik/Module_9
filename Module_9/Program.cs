@@ -1,25 +1,23 @@
 ﻿
 
+using System.Runtime.InteropServices;
+
 namespace Module_9
 
 {
     class Program
     {
-        static int Division(int a, int b)
-        {
-            return a / b;
-        }
         static void Main(string[] args)
         {
             try
             {
-                int result = Division(7, 0);
-                Console.WriteLine(result);
+                throw new ArgumentOutOfRangeException();
+
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is ArgumentOutOfRangeException)
             {
-                if (ex is DivideByZeroException) 
-                Console.WriteLine("Делить на нoль нельзя");
+                
+                Console.WriteLine(ex);
             }
             
 
