@@ -11,17 +11,20 @@ class Program
     
     static void Main(string[] args)
     {
-        // Создаем экземпляр делегата CalculateDelegate, связывая его с методом Calculate.
+        // 1 способ вызова делигата. Создаем экземпляр делегата CalculateDelegate, связывая его с методом Calculate.
         CalculateDelegate calcDelegate = Calculate;
-
-        // Вызываем метод Calculate через делегат calcDelegate и передаем ему два целочисленных аргумента.
         int result = calcDelegate.Invoke(100, 30);
-
-       
         Console.WriteLine(result);
-
-        
         Console.Read();
+
+
+        // 2 способ вызова делигата. Создаем экземпляр делегата CalculateDelegate, связывая его с методом Calculate.
+        CalculateDelegate calcDelegate2 = Calculate;
+        int result2 = calcDelegate(100, 30); // разница в методе .Invoke
+        Console.WriteLine(result);
+        Console.Read();
+
+
     }
 
     // Определяем статический метод Calculate, который принимает два целочисленных аргумента и возвращает разность первого и второго аргументов.
