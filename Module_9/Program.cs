@@ -1,44 +1,53 @@
 ﻿
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Security;
 using System.Runtime.InteropServices;
 
 
-// определение двух делегатов с помощью ключевого слова delegate
-// ShowMessageDelegate принимает одну строку в качестве аргумента и не возвращает значения
-delegate void ShowMessageDelegate(string _message);
-// RandomNumberDelegate не принимает аргументов и возвращает целое число
-delegate int RandomNumberDelegate();
+
+
+
+
 
 class Program
 {
+    // Определение двух делегатов TesCar и HandlerMethod
+    // TesCar имеет возвращаемый тип Car, который может быть заменен производным классом (например, Lexus)
+    public delegate Car TesCar();
+    // HandlerMethod принимает параметр типа Parent, который может быть заменен базовым классом (например, Child)
+    public delegate Parent HandlerMethod();
+
+    // Определение делегата ChildInfo
+    delegate void ChildInfo(Child child);
+
+    // Методы, возвращающие различные типы объектов
+    public static Car CarNew() { return null; }
+    public static Lexus LexusNew() { return null; }
+    public static Parent ParentHandler() { return null; }
+    public static Child ChildHandler() { return null; }
+
     static void Main(string[] args)
     {
-        // создание экземпляра делегата ShowMessageDelegate
-        ShowMessageDelegate showMessageDelegate = (string _message) =>
-        {
-            // создание лямбда-функции, которая выводит сообщение на консоль
-            Console.WriteLine(_message);
-        };
-        // вызов функции showMessageDelegate с аргументом "Hello World!"
-        showMessageDelegate.Invoke("Hello World!");
+        // Пример использования ковариантности в делегатах
+        TesCar testcar = CarNew;    // TesCar может ссылаться на метод CarNew
+        TesCar testcar1 = LexusNew; // TesCar может ссылаться на метод LexusNew
 
-        // ожидание нажатия клавиши пользователем
-        Console.Read();
+        // Пример использования контравариантности в делегатах
+        ChildInfo childInfo = GetParentInfo;   // ChildInfo может ссылаться на метод GetParentInfo,
+                                               // который принимает объект типа Parent
+        childInfo.Invoke(new Child());         // вызов делегата с объектом типа Child
 
-        // создание экземпляра делегата RandomNumberDelegate
-        RandomNumberDelegate randomNumberDelegate = () =>
-        {
-            // создание лямбда-функции, которая возвращает случайное целое число в диапазоне от 0 до 99
-            return new Random().Next(0, 100);
-        };
-        // вызов функции randomNumberDelegate и сохранение результата в переменной result
-        int result = randomNumberDelegate.Invoke();
-
-        // вывод результата на консоль
-        Console.WriteLine(result);
-
-        // ожидание нажатия клавиши пользователем
         Console.Read();
     }
+
+    // Метод, принимающий объект типа Parent
+    // Пример использования контравариантности в делегатах
+    public static void GetParentInfo(Parent p) { Console.WriteLine(p.GetType()); }
 }
 
+// Классы Car, Lexus, Parent и Child, используемые в коде как примеры наследования классов
+class Car { }
+class Lexus : Car { }
+class Parent { }
+class Child : Parent { }
